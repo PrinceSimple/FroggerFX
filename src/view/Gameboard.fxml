@@ -3,20 +3,20 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<StackPane fx:controller="controller.Controller"
-           xmlns:fx="http://javafx.com/fxml" alignment="center" onKeyPressed="#handleOnKeyPressed" >
-
-    <GridPane id="Game" fx:id="Game" >
-        <HBox spacing="10" alignment="center_left" maxHeight="55" minHeight="55" prefHeight="200.0"
+<?import javafx.scene.layout.Pane?>
+<StackPane xmlns:fx="http://javafx.com/fxml" alignment="center" onKeyPressed="#handleKeyPress">
+    <GridPane id="GameBoard" fx:id="GameBoard" >
+        <HBox spacing="10" alignment="center_left" maxHeight="50" minHeight="50" prefHeight="200.0"
               style="-fx-background-color: black; -fx-padding: 0 15 0 15;"
               GridPane.columnIndex="0" GridPane.rowIndex="0">
             <Label text="Player1" style="-fx-text-fill: White;  -fx-font-size: 32;"/>
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Label text="55" style="-fx-text-fill: White;  -fx-font-size: 32;"/>
+            <Label text="nanana" style="-fx-text-fill: White;  -fx-font-size: 32;"/>
         </HBox>
 
     </GridPane>
+    <Pane id="Boardpanel" fx:id="boardPanel" prefHeight="750.0" prefWidth="750.0">
 
-
+    </Pane>
 
 </StackPane>

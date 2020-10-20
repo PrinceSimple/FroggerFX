@@ -11,6 +11,7 @@ public class Avatar extends ImageView {
     private double y_coordinate;
     private Image img;
     private double speed;
+    private Grid movegrid;
 
     public Avatar(String img_url){
         this.img_url = img_url;
@@ -29,8 +30,6 @@ public class Avatar extends ImageView {
     }
 
     public void moveRight() {
-        System.out.println("Aktuelle x-Koordinate: " + this.getTranslateX());
-        System.out.println("Aktuelle y-Koordinate: " + this.getTranslateY());
         if (this.getTranslateX() <= 745){
             this.setTranslateX(x_coordinate + speed);
             this.set_x_coordinate();
