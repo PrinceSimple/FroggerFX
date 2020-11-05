@@ -1,41 +1,109 @@
 package controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
+import model.Obstacle;
 import model.Player;
+import model.Row;
 
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-import model.Background;
 
 public class ViewController implements Initializable, Observer {
-    private GameController gc;
-    Canvas canvas = new javafx.scene.canvas.Canvas(750, 750);
-    private String[] images = {"bg13.png", "bg12.jpg", "bg11.jpg", "bg10.jpg", "bg9.jpg", "bg8.jpg", "bg7.png",
-            "bg6.jpg", "bg5.jpg", "bg4.jpg", "bg3.jpg", "bg2.jpg", "bg1.png"};
+    private GameController gameController;
+    Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
+    //private String[] images = {"bg13.png", "bg12.jpg", "bg11.jpg", "bg10.jpg", "bg9.jpg", "bg8.jpg", "bg7.png",
+    //        "bg6.jpg", "bg5.jpg", "bg4.jpg", "bg3.jpg", "bg2.jpg", "bg1.png"};
     private Player player1;
-    @FXML
-    Pane boardPanel;
+    private Obstacle car1;
+    private static Color[] rowColors = {
+            Color.web("99FF99"), Color.web("99FF99"), Color.web("99FFFF"), Color.web("99FFFF"),
+            Color.web("99FFFF"), Color.web("99FFFF"), Color.web("99FFFF"), Color.web("D6FF99"),
+            Color.web("1f261f"), Color.web("1f261f"), Color.web("1f261f"), Color.web("1f261f"),
+            Color.web("1f261f"), Color.web("1f261f"), Color.web("99FF99")
+            };
 
-    @FXML
-    private GridPane GameBoard;
+    //private AnimationTimer animationTimer;
+    long startTime = 0;
+    boolean atStarted = false;
+    private Timeline gameTimeline = new Timeline(
+        new KeyFrame(Duration.millis(1),
+            new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    nextTick();
+                }
+            }));
 
-    public ViewController()  {
-        gc = new GameController();
+    private void nextTick() {
+        if(player1.intersects(car1)){
+            System.out.println("INTERSECTS!!!!!!!!!");
+        }
+        car1.update();
     }
 
+    public ViewController()  {
+        gameController = new GameController();
+    }
 
     @FXML
+    private Pane playerLayer;
+    @FXML
+    private Pane obstacleLayer;
+    @FXML
+    private Pane bgLayer;
+    @FXML
+    private GridPane Info;
+    @FXML
+    private GridPane player_grid;
+    @FXML
     private void handleKeyPress(KeyEvent e) {
-        gc.inputController.handle(e);
+        //gameController.inputController.handle(e);
+        switch(e.getCode()){
+            case RIGHT:
+                if(player1.getX() < 700){
+                    player1.move(50,0);
+                }
+                break;
+            case LEFT:
+                if(player1.getX() > 0){
+                    player1.move(-50,0);
+                }
+                break;
+            case UP:
+                if(player1.getY() > 0){
+                    player1.move(0,-50);
+                }
+                break;
+            case DOWN:
+                if(player1.getY() < 700) {
+                    player1.move(0, 50);
+                }
+                break;
+            case ENTER:
+                if(!atStarted) {
+                    gameTimeline.play();
+                    atStarted = true;
+                } else {
+                    gameTimeline.stop();
+                    atStarted = false;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -45,30 +113,27 @@ public class ViewController implements Initializable, Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        for(int col=0;col<1;col++){
-            for(int row=0;row<13;row++){
-                //Zeilenhöhe auf 50px setzen
-                RowConstraints rc = new RowConstraints();
-                rc.setMinHeight(50);
-                rc.setPrefHeight(50);
-                GameBoard.getRowConstraints().addAll(rc);
-                // Bildernamen aus dem Array holen und neues Bildobjekt erzeugen
-                Image img = new Image("images/" + images[row]);
-                //Rectangle rect = new Rectangle(50,50, Color.BLUE);
+        gameTimeline.setCycleCount(Timeline.INDEFINITE);
 
-                //Bilder dem Grid hinzufügen
-                GameBoard.add(new Background(img), col, row);
-            }
+        for(int row=0;row<15;row++){
+            new Row(0,row * 50, 750, 50, rowColors[row], bgCanvas);
         }
-        // Spielfigur erzeugen und Link zum Bild übergeben
-        player1 = new Player("images/frog_50_38_lila.png");
-        // Spielfigur dem Grid hinzufügen in Spalte 0, Zeile 13
-        GameBoard.add(player1.avatar, 0, 0);
-        boardPanel.getChildren().add(canvas);
-        canvas.getGraphicsContext2D().fillText("Hallo Welt", 325,325);
+
+        player1 = new Player(350,700);
+        player1.initImage(playerLayer);
+        bgLayer.getChildren().add(bgCanvas);
+        car1 = new Obstacle(400, 0.1, 1);
+        car1.initImage(obstacleLayer);
+        gameTimeline.play();
+        atStarted = true;
+
+    }
+
+    public void gameLoop() {
+
     }
 
     public GameController getGameController() {
-        return gc;
+        return gameController;
     }
 }

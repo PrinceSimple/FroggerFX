@@ -1,22 +1,20 @@
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.Pane?>
-<StackPane xmlns:fx="http://javafx.com/fxml" alignment="center" onKeyPressed="#handleKeyPress">
-    <GridPane id="GameBoard" fx:id="GameBoard" >
-        <HBox spacing="10" alignment="center_left" maxHeight="50" minHeight="50" prefHeight="200.0"
-              style="-fx-background-color: black; -fx-padding: 0 15 0 15;"
-              GridPane.columnIndex="0" GridPane.rowIndex="0">
-            <Label text="Player1" style="-fx-text-fill: White;  -fx-font-size: 32;"/>
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Label text="nanana" style="-fx-text-fill: White;  -fx-font-size: 32;"/>
-        </HBox>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane onKeyPressed="#handleKeyPress" prefHeight="850" prefWidth="850" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <Pane id="BackgroundLayer" fx:id="bgLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0"/>
+    <Pane id="PlayerLayer" fx:id="playerLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0"/>
+    <Pane id="ObstacleLayer" fx:id="obstacleLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0"/>
 
-    </GridPane>
-    <Pane id="Boardpanel" fx:id="boardPanel" prefHeight="750.0" prefWidth="750.0">
-
-    </Pane>
-
-</StackPane>
+     <HBox alignment="center_left" maxHeight="50" minHeight="50" prefHeight="50.0" prefWidth="850.0" spacing="10" style="-fx-background-color: black; -fx-padding: 0 15 0 15;">
+         <Label style="-fx-text-fill: White;  -fx-font-size: 32;" text="FroggerFX" />
+         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <Label style="-fx-text-fill: White;  -fx-font-size: 32;" text="Score" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Times New Roman Bold" size="1.0" />
+         </font>
+      </Label>
+     </HBox>
+</AnchorPane>
