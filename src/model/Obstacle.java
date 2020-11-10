@@ -1,30 +1,23 @@
 package model;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 public class Obstacle extends BaseGameObject {
 
-    public ImageView img;
-    public Image image;
-    protected int x;
-    protected String imgPath;
-    protected static int direction = 1;
     protected double speed;
 
-    public Obstacle(double y, double speed, int direction)
+    public Obstacle(double x, double y, int width, double speed)
         {
-            super(0, y, 50, 50, "images/Car_1.png");
+            super(x, y, width, 50, "images/Car_1.png");
             this.speed = speed;
-            this.direction = direction;
         }
 
     public void update()
     {
-        if(getX()>=700) {
-            setX(-700 * direction);
+        if(getX()>700) {
+            setX(0);
+        } else if (getX()<0) {
+            setX(700);
         } else {
-            setX(1 * direction * speed);
+            moveX(speed);
         }
     }
 }

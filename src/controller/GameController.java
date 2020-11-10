@@ -2,6 +2,7 @@ package controller;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,27 +17,12 @@ import model.Background;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameController extends Observable {
+public class GameController {
 
     public InputController inputController = new InputController();
     // String Array mit den Bildernamen für den Hintergrund
 
-    @FXML
-    Observer observer;
-
     public void initialize() {
 
-
-
     }
-
-    private void notifyObserver() {
-        if (observer != null) {
-            observer.update(this, null);
-        }
-    }
-    public void setObserver(Observer observer) {
-        this.observer = observer;
-    }
-
 }

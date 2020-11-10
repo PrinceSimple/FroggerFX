@@ -22,6 +22,15 @@ public class BaseGameObject implements Serializable {
         this.imgPath = imgPath;
     }
 
+    public void move(double x, double y) {
+        setX(this.x + x);
+        setY(this.y + y);
+    }
+
+    public void moveX(double x) {
+        setX(this.x + x);
+    }
+
     public boolean intersects(BaseGameObject other) {
         return this.img.intersects(other.img.getLayoutBounds());
     }
@@ -31,7 +40,7 @@ public class BaseGameObject implements Serializable {
     }
 
     public void setX(double x) {
-        this.x += x;
+        this.x = x;
         img.setX(this.x);
     }
 
@@ -40,16 +49,16 @@ public class BaseGameObject implements Serializable {
     }
 
     public void setY(double y) {
-        this.y += y;
+        this.y = y;
         img.setY(this.y);
     }
 
     public void initImage(Pane pane) {
         this.img = new ImageView();
-        Image im = new Image(imgPath,(double) w,(double) h, false, false);
+        Image im = new Image(imgPath,(double) w-2,(double) h-2, false, false);
         this.img.setImage(im);
-        this.img.setX(x);
-        this.img.setY(y);
+        this.img.setX(this.x);
+        this.img.setY(this.y);
         pane.getChildren().add(img);
     }
 }
