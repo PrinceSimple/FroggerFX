@@ -12,10 +12,10 @@ public class Obstacle extends BaseGameObject {
 
     public void update()
     {
-        if(getX()>700) {
-            setX(0);
-        } else if (getX()<0) {
-            setX(700);
+        if(getX() > 750) {
+            setX(-50);
+        } else if (getX() < -50) {
+            setX(750);
         } else {
             moveX(speed);
         }
