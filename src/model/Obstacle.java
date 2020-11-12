@@ -4,9 +4,9 @@ public class Obstacle extends BaseGameObject {
 
     protected double speed;
 
-    public Obstacle(double x, double y, int width, double speed)
+    public Obstacle(double x, double y, int width, double speed, String imgPath)
         {
-            super(x, y, width, 50, "images/Car_1.png");
+            super(x, y, width, 50, imgPath);
             this.speed = speed;
         }
 

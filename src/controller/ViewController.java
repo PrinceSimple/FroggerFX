@@ -68,21 +68,21 @@ public class ViewController {
 
     public Row[] rows =
     {
-        new Row(0, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(1, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(2, Color.web("99FFFF"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(3, Color.web("99FFFF"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(4, Color.web("99FFFF"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(5, Color.web("99FFFF"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(6, Color.web("99FFFF"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(7, Color.web("D6FF99"), bgCanvas, 0, 0, 0, 0, 0, true),
-        new Row(8, Color.web("1f261f"), bgCanvas, 4, 50, 100, 300, 0.2, false),
-        new Row(9, Color.web("1f261f"), bgCanvas, 2, 50, 200, 50, 0.15, true),
-        new Row(10, Color.web("1f261f"), bgCanvas,3, 50, 150, 150, 0.08, false),
-        new Row(11, Color.web("1f261f"), bgCanvas,2, 50, 100, 100, 0.1, true),
-        new Row(12, Color.web("1f261f"), bgCanvas,4, 50, 100, 200, 0.2, false),
-        new Row(13, Color.web("1f261f"), bgCanvas,2, 50, 50, 50, 0.3, true),
-        new Row(14, Color.web("99FF99"), bgCanvas,0, 0, 0, 0, 0, true)
+        new Row(0, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
+        new Row(1, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
+        new Row(2, Color.web("99FFFF"), bgCanvas, 3, 230, 300, 400, 0.1, true, "assets/Hog_1.png"),
+        new Row(3, Color.web("99FFFF"), bgCanvas, 2, 175, 250, 230, 0.2, false, "assets/turtle_1.png"),
+        new Row(4, Color.web("99FFFF"), bgCanvas, 2, 230, 300, 230, 0.18, true, "assets/Hog_1.png"),
+        new Row(5, Color.web("99FFFF"), bgCanvas, 3, 230, 200, 50, 0.1, false, "assets/Hog_1.png"),
+        new Row(6, Color.web("99FFFF"), bgCanvas, 3, 175, 200, 100, 0.05, true, "assets/turtle_1.png"),
+        new Row(7, Color.web("D6FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
+        new Row(8, Color.web("1f261f"), bgCanvas, 4, 50, 100, 300, 0.2, false, "assets/Car_1.png"),
+        new Row(9, Color.web("1f261f"), bgCanvas, 2, 50, 200, 50, 0.15, true, "assets/Car_2.png"),
+        new Row(10, Color.web("1f261f"), bgCanvas,3, 50, 150, 150, 0.08, false, "assets/Car_3.png"),
+        new Row(11, Color.web("1f261f"), bgCanvas,2, 50, 100, 100, 0.1, true, "assets/Car_2.png"),
+        new Row(12, Color.web("1f261f"), bgCanvas,4, 50, 100, 200, 0.2, false, "assets/Car_3.png"),
+        new Row(13, Color.web("1f261f"), bgCanvas,2, 50, 50, 50, 0.3, true, "assets/Car_1.png"),
+        new Row(14, Color.web("99FF99"), bgCanvas,0, 0, 0, 0, 0, true, "")
     };
 
     long startTime = 0;

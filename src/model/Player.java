@@ -8,7 +8,7 @@ public class Player extends BaseGameObject {
     private boolean sitting = false;
 
     public Player(double x, double y) {
-        super(x, y, 50, 50, "images/animated_example.gif");
+        super(x, y, 50, 50, "assets/animated_example.gif");
     }
 
     public void reset(double x, double y) {

@@ -10,7 +10,7 @@ public class Row {
     public Obstacle[] obstacles;
     //private int leftToRight = 1;
 
-    public Row(int id, Color bgColor, Canvas backgroundCanvas, int obstacleCount, int obstacleWidth, int spacing, int offset, double speed, boolean inverted) {
+    public Row(int id, Color bgColor, Canvas backgroundCanvas, int obstacleCount, int obstacleWidth, int spacing, int offset, double speed, boolean inverted, String obstacleImgPath) {
         ctx = backgroundCanvas.getGraphicsContext2D();
         ctx.setFill(bgColor);
         ctx.fillRect(0, id*50, 750, 50);
@@ -21,7 +21,7 @@ public class Row {
         }
         for(int i = 0; i < obstacleCount; i++) {
             int temp_x = i * spacing + offset;
-            this.obstacles[i] = new Obstacle(temp_x, id * 50, obstacleWidth, speed);
+            this.obstacles[i] = new Obstacle(temp_x, id * 50, obstacleWidth, speed, obstacleImgPath);
         }
     }
 }
