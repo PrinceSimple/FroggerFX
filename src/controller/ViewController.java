@@ -18,25 +18,12 @@ import model.Obstacle;
 import model.Player;
 import model.Row;
 
-import java.net.URL;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
-
 public class ViewController {
-    private GameController gameController;
-    Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
-    //private String[] images = {"bg13.png", "bg12.jpg", "bg11.jpg", "bg10.jpg", "bg9.jpg", "bg8.jpg", "bg7.png",
-    //        "bg6.jpg", "bg5.jpg", "bg4.jpg", "bg3.jpg", "bg2.jpg", "bg1.png"};
+    //private GameController gameController;
+
     private Player player1;
-    private Obstacle car1;
-    private static Color[] rowColors = {
-            Color.web("99FF99"), Color.web("99FF99"), Color.web("99FFFF"), Color.web("99FFFF"),
-            Color.web("99FFFF"), Color.web("99FFFF"), Color.web("99FFFF"), Color.web("D6FF99"),
-            Color.web("1f261f"), Color.web("1f261f"), Color.web("1f261f"), Color.web("1f261f"),
-            Color.web("1f261f"), Color.web("1f261f"), Color.web("99FF99")
-            };
+
+    Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
     @FXML
     private Pane obstacleLayer;
     @FXML
@@ -50,29 +37,13 @@ public class ViewController {
     @FXML
     private GridPane player_grid;
 
-//    Row row1 = new Row(0, Color.web("99FF99"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row2 = new Row(1, Color.web("99FF99"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row3 = new Row(2, Color.web("99FFFF"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row4 = new Row(3, Color.web("99FFFF"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row5 = new Row(4, Color.web("99FFFF"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row6 = new Row(5, Color.web("99FFFF"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row7 = new Row(6, Color.web("99FFFF"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row8 = new Row(7, Color.web("D6FF99"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row9 = new Row(8, Color.web("1f261f"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row10 = new Row(9, Color.web("1f261f"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row11 = new Row(10, Color.web("1f261f"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row12 = new Row(11, Color.web("1f261f"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row13 = new Row(12, Color.web("1f261f"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-//    Row row14 = new Row(13, Color.web("1f261f"), bgCanvas, obstacleLayer, 4, 50, 2, 50, 1);
-//    Row row15 = new Row(14, Color.web("99FF99"), bgCanvas, obstacleLayer, 0, 0, 0, 0, 0);
-
     public Row[] rows =
     {
         new Row(0, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
         new Row(1, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
         new Row(2, Color.web("99FFFF"), bgCanvas, 3, 230, 300, 400, 0.1, true, "assets/Hog_1.png"),
         new Row(3, Color.web("99FFFF"), bgCanvas, 2, 175, 250, 230, 0.2, false, "assets/turtle_1.png"),
-        new Row(4, Color.web("99FFFF"), bgCanvas, 2, 230, 300, 230, 0.18, true, "assets/Hog_1.png"),
+        new Row(4, Color.web("99FFFF"), bgCanvas, 2, 200, 300, 230, 0.18, true, "assets/Hog_1.png"),
         new Row(5, Color.web("99FFFF"), bgCanvas, 3, 230, 200, 50, 0.1, false, "assets/Hog_1.png"),
         new Row(6, Color.web("99FFFF"), bgCanvas, 3, 175, 200, 100, 0.05, true, "assets/turtle_1.png"),
         new Row(7, Color.web("D6FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
@@ -97,20 +68,33 @@ public class ViewController {
             }));
 
     private void nextTick() {
-        int index = 0;
-        for (Row r: rows) {
-            for (Obstacle o: r.obstacles) {
-                if (o.intersects(player1)){
-                    player1.reset(350,700);
+        for (Row r : rows) {
+            r.update();
+            if (r.intersects(player1) && r.isWater()) {
+                boolean isSafe = false;
+                for (Obstacle o : r.obstacles) {
+                    if (o.contains(player1)) {
+                        isSafe = true;
+                    }
                 }
-                o.update();
+                if(isSafe) {
+                    player1.moveX(r.obstacles[0].speed);
+                }else {
+                    player1.reset(350, 700);
+                }
+            } else if (r.intersects(player1) && !r.isWater()) {
+                for (Obstacle o : r.obstacles) {
+                    if (o.contains(player1)) {
+                        player1.reset(350, 700);
+                    }
+                }
             }
         }
     }
 
-    public ViewController()  {
-        gameController = new GameController();
-    }
+//    public ViewController()  {
+//        gameController = new GameController();
+//    }
 
     @FXML
     private void handleKeyPress(KeyEvent e) {
@@ -166,11 +150,8 @@ public class ViewController {
         scoreLabel.textProperty().bind(s);
     }
 
-    public void gameLoop() {
 
-    }
-
-    public GameController getGameController() {
-        return gameController;
-    }
+//    public GameController getGameController() {
+//        return gameController;
+//    }
 }

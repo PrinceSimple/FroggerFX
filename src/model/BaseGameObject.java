@@ -1,5 +1,6 @@
 package model;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,12 +14,14 @@ public class BaseGameObject implements Serializable {
     protected double h;
     protected String imgPath;
     protected ImageView img;
+    protected Point2D center;
 
     public BaseGameObject(double x, double y, double w, double h, String imgPath) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
+        this.center = new Point2D(w*0.5, h*0.5);
         this.imgPath = imgPath;
     }
 
@@ -33,6 +36,10 @@ public class BaseGameObject implements Serializable {
 
     public boolean intersects(BaseGameObject other) {
         return this.img.intersects(other.img.getLayoutBounds());
+    }
+
+    public boolean contains(BaseGameObject other) {
+        return this.img.contains(other.getCenter());
     }
 
     public double getX(){
@@ -51,6 +58,10 @@ public class BaseGameObject implements Serializable {
     public void setY(double y) {
         this.y = y;
         img.setY(this.y);
+    }
+
+    public Point2D getCenter() {
+        return new Point2D(this.img.getLayoutBounds().getMinX()+this.w*0.5, this.img.getLayoutBounds().getMinY()+this.h*0.5);
     }
 
     public void initImage(Pane pane) {

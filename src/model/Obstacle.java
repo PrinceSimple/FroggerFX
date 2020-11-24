@@ -2,22 +2,33 @@ package model;
 
 public class Obstacle extends BaseGameObject {
 
-    protected double speed;
+    public double speed;
+    private boolean isDeadly;
+    private double width;
 
-    public Obstacle(double x, double y, int width, double speed, String imgPath)
+    public Obstacle(double x, double y, double width, double speed, boolean deadly, String imgPath)
         {
             super(x, y, width, 50, imgPath);
             this.speed = speed;
+            this.isDeadly = deadly;
+            this.width = width;
         }
 
     public void update()
     {
-        if(getX() > 750) {
-            setX(-50);
-        } else if (getX() < -50) {
-            setX(750);
+        if(getX() > 700 + this.w) {
+            setX(-this.w);
+        } else if (getX() < -this.w) {
+            setX(700 + this.w);
         } else {
             moveX(speed);
         }
+    }
+    public boolean isDeadly() {
+        return isDeadly;
+    }
+
+    public double getWidth() {
+        return width;
     }
 }
