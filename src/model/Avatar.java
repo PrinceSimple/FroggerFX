@@ -11,7 +11,6 @@ public class Avatar extends ImageView {
     private double y_coordinate;
     private Image img;
     private double speed;
-    private Grid movegrid;
 
     public Avatar(String img_url){
         this.img_url = img_url;

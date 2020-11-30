@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Player extends BaseGameObject {
 
-    private SimpleIntegerProperty score;
+    private int score = 0;
     private String imgPath;
     private Obstacle raft;
 
@@ -17,23 +17,13 @@ public class Player extends BaseGameObject {
         setY(y);
     }
 
-    public void attachTo(Obstacle o) {
-        raft = o;
-    }
-
-
     public int getScore() {
-        return score.get();
-    }
-
-    public SimpleIntegerProperty scoreProperty() {
         return score;
     }
 
     public void setScore(int score) {
-        this.score.set(score);
+        this.score = score;
     }
-
 }
 
 

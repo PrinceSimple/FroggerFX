@@ -18,7 +18,7 @@ import model.Obstacle;
 import model.Player;
 import model.Row;
 
-public class ViewController {
+public class GameViewController {
     //private GameController gameController;
 
     private Player player1;
@@ -146,8 +146,10 @@ public class ViewController {
             }
         }
         gameTimeline.play();
-        SimpleStringProperty s = new SimpleStringProperty("0");
-        scoreLabel.textProperty().bind(s);
+        //SimpleStringProperty s = new SimpleStringProperty(Integer.toString(player1.getScore()));
+
+        //scoreLabel.textProperty().bind(s);
+
     }
 
 
