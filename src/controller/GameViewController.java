@@ -9,29 +9,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
+import javafx.util.converter.NumberStringConverter;
 import model.Obstacle;
 import model.Player;
 import model.Row;
 
 public class GameViewController {
-    //private GameController gameController;
 
     private Player player1;
-
+    //private InputController inputController = new InputController(player1);
     Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
+
     @FXML
     private Pane obstacleLayer;
     @FXML
     private Pane playerLayer;
     @FXML
-    private Label scoreLabel;
-    @FXML
     private Pane bgLayer;
+    @FXML
+    private Label scoreLabel;
     @FXML
     private GridPane Info;
     @FXML
@@ -56,10 +60,12 @@ public class GameViewController {
         new Row(14, Color.web("99FF99"), bgCanvas,0, 0, 0, 0, 0, true, "")
     };
 
+
+
     long startTime = 0;
     boolean gamePaused = false;
     private Timeline gameTimeline = new Timeline(
-        new KeyFrame(Duration.millis(1),
+        new KeyFrame(Duration.millis(2),
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -80,45 +86,55 @@ public class GameViewController {
                 if(isSafe) {
                     player1.moveX(r.obstacles[0].speed);
                 }else {
-                    player1.reset(350, 700);
+                    killPlayer(player1);
                 }
             } else if (r.intersects(player1) && !r.isWater()) {
                 for (Obstacle o : r.obstacles) {
                     if (o.contains(player1)) {
-                        player1.reset(350, 700);
+                        killPlayer(player1);
                     }
                 }
             }
         }
     }
 
-//    public ViewController()  {
-//        gameController = new GameController();
-//    }
+    private void killPlayer(Player p) {
+        ImageView deathimage = new ImageView(new Image("assets/skull_head_death.png",50,50, false, false));
+        deathimage.setX(p.getX());
+        deathimage.setY(p.getY());
+        playerLayer.getChildren().add(deathimage);
+        p.lives.subtract(1);
+        p.reset(350, 700);
+    }
 
     @FXML
     private void handleKeyPress(KeyEvent e) {
-        //gameController.inputController.handle(e);
+        //inputController.handle(e);
         switch(e.getCode()){
             case RIGHT:
                 if(player1.getX() < 700){
                     player1.move(50,0);
                 }
+                player1.img.setRotate(90);
                 break;
             case LEFT:
                 if(player1.getX() > 0){
                     player1.move(-50,0);
                 }
+                player1.img.setRotate(-90);
                 break;
             case UP:
                 if(player1.getY() > 0){
                     player1.move(0,-50);
+                    player1.score.set(player1.score.get() + 10);
                 }
+                player1.img.setRotate(0);
                 break;
             case DOWN:
                 if(player1.getY() < 700) {
                     player1.move(0, 50);
                 }
+                player1.img.setRotate(180);
                 break;
             case ENTER:
                 if(gamePaused) {
@@ -135,11 +151,15 @@ public class GameViewController {
     }
 
     public void initialize() {
+
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         bgLayer.getChildren().add(bgCanvas);
-
-        player1 = new Player(350,700);
+        int score = 100;
+        player1 = new Player(1, 350,700);
         player1.initImage(playerLayer);
+        player1.setImageTint(player1.colorAdjust);
+
+        scoreLabel.textProperty().bind(player1.score.asString());
         for (Row r: rows) {
             for (Obstacle o: r.obstacles) {
                 o.initImage(obstacleLayer);
@@ -152,7 +172,9 @@ public class GameViewController {
 
     }
 
-
+public void startGame(){
+        gameTimeline.play();
+}
 //    public GameController getGameController() {
 //        return gameController;
 //    }

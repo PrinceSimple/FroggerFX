@@ -1,6 +1,7 @@
 package model;
 
 import javafx.geometry.Point2D;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,7 +14,7 @@ public class BaseGameObject implements Serializable {
     protected double w;
     protected double h;
     protected String imgPath;
-    protected ImageView img;
+    public ImageView img;
     protected Point2D center;
 
     public BaseGameObject(double x, double y, double w, double h, String imgPath) {
@@ -71,5 +72,13 @@ public class BaseGameObject implements Serializable {
         this.img.setX(this.x);
         this.img.setY(this.y);
         pane.getChildren().add(img);
+    }
+
+    public ImageView getImg() {
+        return this.img;
+    }
+
+    public void setImageTint(ColorAdjust ca){
+        img.setEffect(ca);
     }
 }

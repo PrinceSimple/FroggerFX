@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onKeyPressed="#handleKeyPress" prefHeight="850" prefWidth="850" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane onKeyPressed="#handleKeyPress" prefHeight="850" prefWidth="850" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <Pane id="BackgroundLayer" fx:id="bgLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0" />
     <Pane id="ObstacleLayer" fx:id="obstacleLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0" />
     <Pane id="PlayerLayer" fx:id="playerLayer" layoutX="50.0" layoutY="50.0" prefHeight="750.0" prefWidth="750.0" />
@@ -15,10 +15,10 @@
    <VBox layoutX="800.0" prefHeight="850.0" prefWidth="50.0" style="-fx-background-color: black;" />
 
      <HBox alignment="center_left" maxHeight="50" minHeight="50" prefHeight="50.0" prefWidth="850.0" spacing="10" style="-fx-background-color: black; -fx-padding: 0 15 0 15;">
-         <Label style="-fx-text-fill: White;  -fx-font-size: 32;" text="FroggerFX" />
-         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <Label style="-fx-text-fill: White;  -fx-font-size: 32;" text="Score " textAlignment="CENTER" textFill="WHITE" />
-         <Label fx:id="scoreLabel" style="-fx-text-fill: White;  -fx-font-size: 32;" text="0" textAlignment="CENTER" textFill="WHITE" />
+         <Label style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 32;" text="FroggerFX" />
+         <Region prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+         <Label style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 32;" text="Score " textAlignment="RIGHT" textFill="WHITE" />
+         <Label fx:id="scoreLabel" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 32;" text="0" textAlignment="CENTER" textFill="WHITE" />
      </HBox>
    <HBox alignment="center_left" layoutY="800.0" maxHeight="50" minHeight="50" prefHeight="50.0" prefWidth="850.0" spacing="10" style="-fx-background-color: black; -fx-padding: 0 15 0 15;">
       <children>

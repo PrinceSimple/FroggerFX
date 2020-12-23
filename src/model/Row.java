@@ -25,7 +25,7 @@ public class Row {
         }
         for(int i = 0; i < obstacleCount; i++) {
             int temp_x = i * spacing + offset;
-            this.obstacles[i] = new Obstacle(temp_x, id * 50, obstacleWidth, speed, (id < 7) ? false : true, obstacleImgPath);
+            this.obstacles[i] = new Obstacle(temp_x, id * H, obstacleWidth, speed, (id < 7) ? false : true, obstacleImgPath);
         }
     }
 

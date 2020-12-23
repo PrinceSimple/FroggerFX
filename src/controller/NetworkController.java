@@ -10,6 +10,7 @@ public class NetworkController {
     private static final String PLAYERS_URL = "https://froggerfx-api.herokuapp.com/api/users";  //"http://localhost:8000/api/users";
     private static final String LOGIN_URL = "https://froggerfx-api.herokuapp.com/api/auth/login";  //"http://localhost:8000/api/auth/login";
     private static final String REGISTER_URL = "https://froggerfx-api.herokuapp.com/api/auth/register";  //"http://localhost:8000/api/auth/register";
+    private static final String TEST_URL = "https://froggerfx-api.herokuapp.com/";  //"http://localhost:8000/";
     private static String TOKEN = "";
     public JSONObject errorMessage;
 
@@ -106,4 +107,16 @@ public class NetworkController {
         }
     }
 
+    public boolean testConnection() throws IOException {
+        URL loginURL = new URL(TEST_URL);
+        try {
+            HttpURLConnection con = (HttpURLConnection) loginURL.openConnection();
+            if(con.getResponseCode() == 200) {
+                return true;
+            }
+        } catch ( Exception ex ){
+            System.out.println(ex);
+        }
+        return false;
+    }
 }
