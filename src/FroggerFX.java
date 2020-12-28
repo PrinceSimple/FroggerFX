@@ -32,10 +32,10 @@ public class FroggerFX extends Application {
         loginRoot = loginLoader.getRoot();
         loginScene = new Scene(loginRoot);
         lvc.setNextScene(gameScene);
-        gameScene.getRoot().requestFocus();
-        //loginScene.getRoot().requestFocus();
-        primaryStage.setScene(gameScene);
-        //primaryStage.setScene(loginScene);
+        //gameScene.getRoot().requestFocus();
+        loginScene.getRoot().requestFocus();
+        //primaryStage.setScene(gameScene);
+        primaryStage.setScene(loginScene);
         primaryStage.show();
     }
 

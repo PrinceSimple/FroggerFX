@@ -11,7 +11,6 @@ public class Player extends BaseGameObject {
     public ColorAdjust colorAdjust = new ColorAdjust();
 
     public Player(int id, double x, double y) {
-
         super(x, y, 50, 50, "assets/frog.png");
         colorAdjust.setHue(-0.01);
         //System.out.print(this.img);
@@ -21,10 +20,6 @@ public class Player extends BaseGameObject {
     public void reset(double x, double y) {
         setX(x);
         setY(y);
-    }
-
-    public void die() {
-
     }
 
 }
