@@ -23,6 +23,7 @@ import model.HomeSlot;
 import model.Obstacle;
 import model.Player;
 import model.Row;
+import org.json.JSONObject;
 
 public class GameViewController {
     private Player player1;
@@ -39,6 +40,8 @@ public class GameViewController {
     private Pane bgLayer;
     @FXML
     private Label scoreLabel;
+    @FXML
+    private Label nameLabel;
     @FXML
     private GridPane Info;
     @FXML
@@ -171,27 +174,26 @@ public class GameViewController {
     public void initialize() {
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         bgLayer.getChildren().add(bgCanvas);
-        int score = 100;
-        System.out.println("YOYOYO, from init GameViewController");
+        nameLabel.setText("KUCKUCK");
+        startGame();
+       /* for (HomeSlot h: homes) {
+                h.initImage(playerLayer);
+        }*/
+
+    }
+
+    public void startGame(){
         player1 = new Player(1, 350,700);
         player1.initImage(playerLayer);
         player1.setImageTint(player1.colorAdjust);
-
         scoreLabel.textProperty().bind(player1.score.asString());
         for (Row r: rows) {
             for (Obstacle o: r.obstacles) {
                 o.initImage(obstacleLayer);
             }
         }
-       /* for (HomeSlot h: homes) {
-                h.initImage(playerLayer);
-        }*/
         gameTimeline.play();
     }
-
-public void startGame(){
-        gameTimeline.play();
-}
 //    public GameController getGameController() {
 //        return gameController;
 //    }
