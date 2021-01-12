@@ -73,6 +73,7 @@ public class NetworkController {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
                 in.close();
+                System.out.println(res);
                 return res;
             } else {
 

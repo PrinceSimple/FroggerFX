@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -78,8 +77,8 @@ public class LoginViewController implements Initializable {
     private void handleRegisterButtonAction(ActionEvent event) {
        registerService.start();
     }
-    private void startGameScene() throws IOException{
-        GameViewController gvc = new GameViewController();
+    private void startGameScene(JSONObject player) throws IOException{
+        GameViewController gvc = new GameViewController(this.nc, player);
         Parent gameRoot;
         Scene gameScene;
         FXMLLoader gameLoader = new FXMLLoader(LoginViewController.class.getResource("../view/Gameboard.fxml"), null);
@@ -112,13 +111,21 @@ public class LoginViewController implements Initializable {
         });
 
         loginService.setOnSucceeded(event -> {
-            loadingLabel.setVisible(false);
-            message.setText(loginService.getValue().toString());
-            loginService.reset();
-            try {
-                startGameScene();
-            } catch (IOException e) {
+            JSONObject response = loginService.getValue();
+            try{
+                System.out.println(response.getJSONObject("user").get("username").toString());
+            } catch (Exception e){
                 e.printStackTrace();
+            }
+            loadingLabel.setVisible(false);
+            message.setText(response.toString());
+            loginService.reset();
+            if(response.getJSONObject("user").get("username").toString().equals(username.getText())) {
+                try {
+                    startGameScene(response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -130,13 +137,13 @@ public class LoginViewController implements Initializable {
 
         registerService.setOnSucceeded(event -> {
             loadingLabel.setVisible(false);
-            message.setText(registerService.getValue().toString());
-            registerService.reset();
             try {
-                startGameScene();
-            } catch (IOException e) {
+                message.setText(registerService.getValue().toString());
+                //startGameScene(response);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            registerService.reset();
             //changeScene();
         });
     }

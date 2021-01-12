@@ -28,8 +28,20 @@ import org.json.JSONObject;
 public class GameViewController {
     private Player player1;
     private Player player2;
+    private boolean isTwoPlayerGame = false;
     //private InputController inputController = new InputController(player1);
+    NetworkController nc;
+
+    public GameViewController(NetworkController nc, JSONObject player) {
+        this.nc = nc;
+        this.player1 = new Player(1, 350, 750);
+        this.player1.name.set(player.getJSONObject("user").get("username").toString());
+        this.player1.highscore.set((Integer) player.getJSONObject("user").getJSONObject("player").get("highscore"));
+    }
+
     Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
+
+
     private int occupiedHomes = 0;
 
     @FXML
@@ -69,7 +81,7 @@ public class GameViewController {
     long startTime = 0;
     boolean gamePaused = false;
     private Timeline gameTimeline = new Timeline(
-        new KeyFrame(Duration.millis(40),
+        new KeyFrame(Duration.millis(30),
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -123,6 +135,7 @@ public class GameViewController {
         homeImage.setX(h.getX());
         homeImage.setY(h.getY());
         playerLayer.getChildren().add(homeImage);
+       //playerLayer.getChildren().remove(homeImage);
         p.score.set(p.score.get() + 500);
         p.reset(350, 700);
         occupiedHomes++;
@@ -174,7 +187,7 @@ public class GameViewController {
     public void initialize() {
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         bgLayer.getChildren().add(bgCanvas);
-        nameLabel.setText("KUCKUCK");
+        nameLabel.textProperty().bind(player1.name);
         startGame();
        /* for (HomeSlot h: homes) {
                 h.initImage(playerLayer);
