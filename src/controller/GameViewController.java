@@ -1,13 +1,9 @@
 package controller;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,15 +11,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-import javafx.util.converter.NumberStringConverter;
-import model.HomeSlot;
 import model.Obstacle;
 import model.Player;
 import model.Row;
+import model.RowBuilder;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameViewController {
     private Player player1;
@@ -40,7 +37,6 @@ public class GameViewController {
     }
 
     Canvas bgCanvas = new javafx.scene.canvas.Canvas(750, 750);
-
 
     private int occupiedHomes = 0;
 
@@ -59,35 +55,17 @@ public class GameViewController {
     @FXML
     private GridPane player_grid;
 
-    public Row[] rows =
-    {
-        new Row(0, Color.web("99FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
-        new Row(1, Color.web("99FF99"), bgCanvas, 5, 50, 140, 75, 0, true, "assets/home.png"),
-        new Row(2, Color.web("99FFFF"), bgCanvas, 3, 230, 300, 400, 1, true, "assets/Hog_1.png"),
-        new Row(3, Color.web("99FFFF"), bgCanvas, 2, 175, 250, 230, 2, false, "assets/turtle_1.png"),
-        new Row(4, Color.web("99FFFF"), bgCanvas, 2, 200, 300, 230, 1.8, true, "assets/Hog_1.png"),
-        new Row(5, Color.web("99FFFF"), bgCanvas, 3, 230, 200, 50, 1, false, "assets/Hog_1.png"),
-        new Row(6, Color.web("99FFFF"), bgCanvas, 3, 175, 200, 100, 0.5, true, "assets/turtle_1.png"),
-        new Row(7, Color.web("D6FF99"), bgCanvas, 0, 0, 0, 0, 0, true, ""),
-        new Row(8, Color.web("1f261f"), bgCanvas, 4, 50, 100, 300, 2, false, "assets/Car_1.png"),
-        new Row(9, Color.web("1f261f"), bgCanvas, 2, 50, 200, 50, 1.5, true, "assets/Car_2.png"),
-        new Row(10, Color.web("1f261f"), bgCanvas,3, 50, 150, 150, 0.8, false, "assets/Car_3.png"),
-        new Row(11, Color.web("1f261f"), bgCanvas,2, 50, 100, 100, 1, true, "assets/Car_2.png"),
-        new Row(12, Color.web("1f261f"), bgCanvas,4, 50, 100, 200, 2, false, "assets/Car_3.png"),
-        new Row(13, Color.web("1f261f"), bgCanvas,2, 50, 50, 50, 3, true, "assets/Car_1.png"),
-        new Row(14, Color.web("99FF99"), bgCanvas,0, 0, 0, 0, 0, true, "")
-    };
+    private ArrayList<Row> rows = new ArrayList<Row>();
 
-    long startTime = 0;
     boolean gamePaused = false;
     private Timeline gameTimeline = new Timeline(
-        new KeyFrame(Duration.millis(30),
-            new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    nextTick();
-                }
-            }));
+            new KeyFrame(Duration.millis(30),
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            nextTick();
+                        }
+                    }));
 
     private void nextTick() {
         for (Row r : rows) {
@@ -96,13 +74,13 @@ public class GameViewController {
                 boolean isSafe = false;
                 for (Obstacle o : r.obstacles) {
                     if (o.contains(player1)) {
-                        if(r.getId() == 1) {
+                        if (r.getId() == 1) {
                             setPlayerHome(player1, o);
                         }
                         isSafe = true;
                     }
                 }
-                if(isSafe) {
+                if (isSafe) {
                     player1.moveX(r.obstacles[0].speed);
                 } else {
                     killPlayer(player1);
@@ -118,7 +96,7 @@ public class GameViewController {
     }
 
     private void killPlayer(Player p) {
-        ImageView deathimage = new ImageView(new Image("assets/skull_head_death.png",50,50, false, false));
+        ImageView deathimage = new ImageView(new Image("assets/skull_head_death.png", 50, 50, false, false));
         deathimage.setX(p.getX());
         deathimage.setY(p.getY());
         FadeTransition ft = new FadeTransition(Duration.millis(3000), deathimage);
@@ -126,52 +104,61 @@ public class GameViewController {
         ft.setToValue(0.0);
         playerLayer.getChildren().add(deathimage);
         ft.play();
-        p.lives.subtract(1);
+        p.lives.set(p.lives.get() - 1);
         p.reset(350, 700);
+        if(p.lives.get() == 0){
+            gameOver();
+        }
     }
 
     private void setPlayerHome(Player p, Obstacle h) {
-        ImageView homeImage = new ImageView(new Image("assets/animated_example.gif",50,50, false, false));
-        homeImage.setX(h.getX());
-        homeImage.setY(h.getY());
-        playerLayer.getChildren().add(homeImage);
-       //playerLayer.getChildren().remove(homeImage);
-        p.score.set(p.score.get() + 500);
-        p.reset(350, 700);
-        occupiedHomes++;
+        if(!h.isOccupied()){
+            h.setOccupied(true);
+            ImageView homeImage = new ImageView(new Image("assets/animated_example.gif", 50, 50, false, false));
+            homeImage.setX(h.getX());
+            homeImage.setY(h.getY());
+            playerLayer.getChildren().add(homeImage);
+            //playerLayer.getChildren().remove(homeImage);
+            p.score.set(p.score.get() + 500);
+            p.reset(350, 700);
+            occupiedHomes++;
+        } else{
+            p.reset(player1.getX(), player1.getY() + 50);
+        }
+
     }
 
     @FXML
     private void handleKeyPress(KeyEvent e) {
         //inputController.handle(e);
-        switch(e.getCode()){
+        switch (e.getCode()) {
             case RIGHT:
-                if(player1.getX() < 700){
-                    player1.move(50,0);
+                if (player1.getX() < 700) {
+                    player1.move(50, 0);
                 }
                 player1.img.setRotate(90);
                 break;
             case LEFT:
-                if(player1.getX() > 0){
-                    player1.move(-50,0);
+                if (player1.getX() > 0) {
+                    player1.move(-50, 0);
                 }
                 player1.img.setRotate(-90);
                 break;
             case UP:
-                if(player1.getY() > 0){
-                    player1.move(0,-50);
+                if (player1.getY() > 0) {
+                    player1.move(0, -50);
                     player1.score.set(player1.score.get() + 10);
                 }
                 player1.img.setRotate(0);
                 break;
             case DOWN:
-                if(player1.getY() < 700) {
+                if (player1.getY() < 700) {
                     player1.move(0, 50);
                 }
                 player1.img.setRotate(180);
                 break;
             case ENTER:
-                if(gamePaused) {
+                if (gamePaused) {
                     gameTimeline.play();
                     gamePaused = false;
                 } else {
@@ -185,8 +172,16 @@ public class GameViewController {
     }
 
     public void initialize() {
+        for(int id=0; id < 15; id++){
+            rows.add(new RowBuilder(id, 1, bgCanvas).build());
+        }
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         bgLayer.getChildren().add(bgCanvas);
+        for (Row r : rows) {
+            for (Obstacle o : r.obstacles) {
+                o.initImage(obstacleLayer);
+            }
+        }
         nameLabel.textProperty().bind(player1.name);
         startGame();
        /* for (HomeSlot h: homes) {
@@ -195,19 +190,43 @@ public class GameViewController {
 
     }
 
-    public void startGame(){
-        player1 = new Player(1, 350,700);
+    private void startGame() {
+        player1 = new Player(1, 350, 700);
         player1.initImage(playerLayer);
         player1.setImageTint(player1.colorAdjust);
         scoreLabel.textProperty().bind(player1.score.asString());
-        for (Row r: rows) {
-            for (Obstacle o: r.obstacles) {
-                o.initImage(obstacleLayer);
-            }
-        }
         gameTimeline.play();
     }
-//    public GameController getGameController() {
-//        return gameController;
-//    }
+
+    private void gameOver() {
+        player1.reset(1000, 10000);
+        gameTimeline.stop();
+        Label gameOverLabel = new Label("GAME OVER");
+        gameOverLabel.setStyle("-fx-font-family: 'Press Start 2P'; -fx-text-fill: Red;  -fx-font-size: 32;");
+        gameOverLabel.setTranslateX(225);
+        gameOverLabel.setTranslateY(375);
+        playerLayer.getChildren().add(gameOverLabel);
+
+        ScaleTransition scaleTrans = new ScaleTransition(Duration.millis(500), gameOverLabel);
+        scaleTrans.setByX(1.6);
+        scaleTrans.setByY(1.6);
+        scaleTrans.setAutoReverse(true);
+        scaleTrans.setCycleCount(5);
+        scaleTrans.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    endGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        scaleTrans.play();
+    }
+
+    private void endGame() throws IOException {
+        //nc.fetchAllPlayers();
+        System.out.println("YOYOYOYOYOYOYOYOYO");
+    }
 }

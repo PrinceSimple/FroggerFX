@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import java.util.Random;
 
 public class Row {
     private GraphicsContext ctx;
@@ -67,33 +68,4 @@ public class Row {
         return isWater;
     }
 
-   // public Row buildRow() {
-
-    //}
-    /*public static class RowBuilder {
-
-        private String name;
-        private String accountNumber;
-        private String email;
-        private boolean newsletter;
-
-        public RowBuilder(String name, String accountNumber) {
-            this.name = name;
-            this.accountNumber = accountNumber;
-        }
-
-        public RowBuilder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public RowBuilder wantNewsletter(boolean newsletter) {
-            this.newsletter = newsletter;
-            return this;
-        }
-
-        public Row build() {
-            return new Row(this);
-        }
-    }*/
 }

@@ -11,7 +11,8 @@ public class NetworkController {
     private static final String LOGIN_URL = "https://froggerfx-api.herokuapp.com/api/auth/login";  //"http://localhost:8000/api/auth/login";
     private static final String REGISTER_URL = "https://froggerfx-api.herokuapp.com/api/auth/register";  //"http://localhost:8000/api/auth/register";
     private static final String TEST_URL = "https://froggerfx-api.herokuapp.com/";  //"http://localhost:8000/";
-    private static String TOKEN = "";
+    private static final String UPDATE_URL = "https://froggerfx-api.herokuapp.com/api/user/update";  //"http://localhost:8000/";
+    private static String TOKEN = "a2c485ed18f5aaea0889efd12141b038afa19c9a835190dd5a6e1d9793c29183";
     public JSONObject errorMessage;
 
     public JSONObject login(String username, String password) throws IOException {
@@ -88,22 +89,59 @@ public class NetworkController {
         return errorMessage;
     }
 
-    public void fetchAllPlayers() throws IOException {
+    public JSONArray fetchAllPlayers() throws IOException {
         URL playersURL = new URL(PLAYERS_URL);
         try {
-        HttpURLConnection con = (HttpURLConnection) playersURL.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty( "Authorization", "Token " + TOKEN);
-        con.setRequestProperty("Accept", "*/*");
-        con.setRequestProperty("Connection", "keep-alive");
+            HttpURLConnection con = (HttpURLConnection) playersURL.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty( "Authorization", "Token " + TOKEN);
+            con.setRequestProperty("Accept", "*/*");
+            con.setRequestProperty("Connection", "keep-alive");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        JSONArray players = new JSONArray(in.readLine());
-        System.out.print(players.toString());
-        in.close();
-        //return players;
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            JSONArray players = new JSONArray(in.readLine());
+            System.out.print(players.toString());
+            in.close();
+            return players;
 
         } catch (IOException ex){
+            System.out.println(ex);
+        }
+        return null;
+    }
+
+    public void updateHighscore(int highscore) throws IOException {
+        URL loginURL = new URL(UPDATE_URL);
+
+        String body = "{\"highscore\": \""+highscore+"\"}";
+        try {
+            HttpURLConnection con = (HttpURLConnection) loginURL.openConnection();
+            con.setRequestMethod("PUT");
+            con.setRequestProperty( "Authorization", "Token " + TOKEN);
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestProperty("Content-Type",
+                    "application/json");
+            con.setRequestProperty("Content-Length", String.valueOf(body.length()));
+            con.setRequestProperty("Accept", "*/*");
+            con.setRequestProperty("Connection", "keep-alive");
+
+            OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+            writer.write(body);
+            writer.flush();
+
+            if(con.getResponseCode() < 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                JSONObject res = new JSONObject(in.readLine());
+                in.close();
+                System.out.println(res);
+            } else {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                errorMessage = new JSONObject(in.readLine());
+                in.close();
+            }
+
+        } catch ( Exception ex ){
             System.out.println(ex);
         }
     }

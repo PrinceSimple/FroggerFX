@@ -5,6 +5,7 @@ public class Obstacle extends BaseGameObject {
     public double speed;
     private boolean isDeadly;
     private double width;
+    public boolean occupied = false;
 
     public Obstacle(double x, double y, double width, double speed, boolean deadly, String imgPath)
         {
@@ -26,6 +27,14 @@ public class Obstacle extends BaseGameObject {
     }
     public boolean isDeadly() {
         return isDeadly;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
     public double getWidth() {

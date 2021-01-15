@@ -65,17 +65,15 @@ public class LoginViewController implements Initializable {
         }
     };
 
-    public void setNextScene(Scene scene){
-        //gameScene = scene;
-    }
-
     @FXML
-    private void handleLoginButtonAction(ActionEvent event) {
-        loginService.start();
+    private void handleLoginButtonAction(ActionEvent event) throws IOException {
+        //loginService.start();
+        nc.updateHighscore(123456);
     }
     @FXML
-    private void handleRegisterButtonAction(ActionEvent event) {
-       registerService.start();
+    private void handleRegisterButtonAction(ActionEvent event) throws IOException {
+       //registerService.start();
+        nc.fetchAllPlayers();
     }
     private void startGameScene(JSONObject player) throws IOException{
         GameViewController gvc = new GameViewController(this.nc, player);
@@ -112,11 +110,6 @@ public class LoginViewController implements Initializable {
 
         loginService.setOnSucceeded(event -> {
             JSONObject response = loginService.getValue();
-            try{
-                System.out.println(response.getJSONObject("user").get("username").toString());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
             loadingLabel.setVisible(false);
             message.setText(response.toString());
             loginService.reset();
@@ -136,15 +129,15 @@ public class LoginViewController implements Initializable {
         });
 
         registerService.setOnSucceeded(event -> {
+            JSONObject response = registerService.getValue();
             loadingLabel.setVisible(false);
             try {
-                message.setText(registerService.getValue().toString());
-                //startGameScene(response);
+                message.setText(response.toString());
+                startGameScene(response);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             registerService.reset();
-            //changeScene();
         });
     }
 }
