@@ -249,6 +249,7 @@ public class GameViewController {
     private void showHighscores() {
         expendableLayer.getChildren().clear();
         highscoresLayer.setVisible(true);
+        highscoresLayer.getChildren().clear();
         JSONArray players = fetchHighscoresService.getValue();
         //Sorting Foo because JSON inherently unordered
         SortedMap<Integer, String> sm = new TreeMap<Integer, String>(new Comparator<Integer>() {
@@ -258,7 +259,7 @@ public class GameViewController {
             JSONObject player = players.getJSONObject(i);
             sm.put(player.getJSONObject("player").getInt("highscore"),player.getString("username"));
         }
-        //Couldn't use table? --> for the lazy ones
+        //Couldn't use table? --> this is for the lazy ones (me...)
         int i = 1;
         for (Map.Entry<Integer, String> entry : sm.entrySet()) {
             Integer score = entry.getKey();

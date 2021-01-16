@@ -36,8 +36,6 @@ public class RowBuilder {
         return rdm.nextBoolean();
     }
 
-    private boolean newsletter;
-    //Color bgColor, Canvas backgroundCanvas, int obstacleCount, int obstacleWidth, int spacing, int offset, double speed, boolean backwards, String obstacleImgPath
     public RowBuilder(int id, int level, Canvas backgroundCanvas) {
         this.id = id;
         this.level = level;
@@ -54,11 +52,11 @@ public class RowBuilder {
             case 2: case 4:
             case 5:
                 bgColor = bgColors[1];
-                obstacleCount = randomIntInRange(2,3);
+                obstacleCount = randomIntInRange(3,4);
                 obstacleWidth = 230;
                 spacing = randomIntInRange(300, 400);
                 offset = randomIntInRange(230, 400);
-                speed = randomSpeedInRange(0.7, 2);
+                speed = randomSpeedInRange(1, 2);
                 imgPath = "assets/Hog_3.png";
                 break;
             case 3: case 6:
@@ -67,14 +65,14 @@ public class RowBuilder {
                 obstacleWidth = 175;
                 spacing = randomIntInRange(200, 400);
                 offset = randomIntInRange(50, 150);
-                speed = randomSpeedInRange(0.7, 2.3);
+                speed = randomSpeedInRange(1, 2.3);
                 imgPath = "assets/turtle_1.png";
                 break;
             case 8: case 9:
             case 10: case 11:
             case 12: case 13:
                 bgColor = bgColors[3];
-                obstacleCount = randomIntInRange(2,5);
+                obstacleCount = randomIntInRange(4,8);
                 obstacleWidth = 50;
                 spacing = randomIntInRange(50, 200);
                 offset = randomIntInRange(50, 500);

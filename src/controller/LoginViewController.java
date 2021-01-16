@@ -80,7 +80,6 @@ public class LoginViewController implements Initializable {
         GameViewController gvc = new GameViewController(this.nc, player);
         Scene gameScene;
         URL fxmlURL = getClass().getClassLoader().getResource("view/Gameboard.fxml");
-        System.out.println(fxmlURL);
         FXMLLoader gameLoader = new FXMLLoader(fxmlURL);
         gameLoader.setController(gvc);
         gameLoader.load();

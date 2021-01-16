@@ -16,7 +16,6 @@ public class FroggerFX extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         URL fxmlURL = getClass().getClassLoader().getResource("view/Login.fxml");
-        System.out.println(fxmlURL);
         FXMLLoader loginLoader = new FXMLLoader(fxmlURL);
         loginLoader.setController(lvc);
         loginLoader.load();
