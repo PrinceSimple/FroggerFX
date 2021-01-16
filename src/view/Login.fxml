@@ -10,8 +10,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="850.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="150.0" layoutY="388.0" text="Username:" textFill="WHITE" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;"/>
-      <Label layoutX="150.0" layoutY="429.0" text="Password:" textFill="WHITE" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;"/>
+      <Label layoutX="150.0" layoutY="388.0" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Username:" textFill="WHITE" />
+      <Label layoutX="150.0" layoutY="429.0" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Password:" textFill="WHITE" />
       <TextField fx:id="username" layoutX="328.0" layoutY="384.0" style="-fx-background-color: black; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" />
       <PasswordField fx:id="password" layoutX="328.0" layoutY="425.0" onAction="#onEnter" style="-fx-background-color: black; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" />
       <ImageView fx:id="loadingLabel" fitHeight="50.0" fitWidth="50.0" layoutX="375.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true">
@@ -22,5 +22,10 @@
       <Button fx:id="loginButton" layoutX="500.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" style="-fx-background-color: black; -fx-border-color: white; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Login" textFill="WHITE" />
       <Button fx:id="registerButton" layoutX="150.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleRegisterButtonAction" style="-fx-background-color: black; -fx-border-color: white; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Register" textFill="WHITE" />
       <Label fx:id="message" alignment="CENTER" layoutX="203.0" layoutY="500.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" />
+      <ImageView fitHeight="330.0" fitWidth="470.0" layoutX="165.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/FroggerFxLogo2x.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
