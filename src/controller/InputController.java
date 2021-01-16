@@ -6,8 +6,6 @@ import model.Player;
 
 public class InputController {
     private Player player1;
-
-
     public void handle(KeyEvent e) {
         switch(e.getCode()){
             case RIGHT:

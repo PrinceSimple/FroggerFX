@@ -63,7 +63,7 @@ public class RowBuilder {
                 break;
             case 3: case 6:
                 bgColor = bgColors[1];
-                obstacleCount = randomIntInRange(2,5);
+                obstacleCount = randomIntInRange(2,4);
                 obstacleWidth = 175;
                 spacing = randomIntInRange(200, 400);
                 offset = randomIntInRange(50, 150);

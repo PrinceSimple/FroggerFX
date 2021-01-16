@@ -2,9 +2,7 @@ package model;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import java.util.Random;
 
 public class Row {
     private GraphicsContext ctx;
@@ -54,10 +52,6 @@ public class Row {
         for (Obstacle o: this.obstacles) {
             o.update();
         }
-    }
-
-    public int getY() {
-        return y;
     }
 
     public int getId() {

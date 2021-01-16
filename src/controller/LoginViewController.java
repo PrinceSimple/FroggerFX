@@ -2,6 +2,7 @@ package controller;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -9,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -37,7 +37,10 @@ public class LoginViewController implements Initializable {
     private Button loginButton;
     @FXML
     private Button registerButton;
-
+    @FXML
+    public void onEnter(ActionEvent e){
+        loginService.start();
+    }
 
     Service<JSONObject> loginService = new Service<JSONObject>() {
         @Override
@@ -67,23 +70,21 @@ public class LoginViewController implements Initializable {
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) throws IOException {
-        //loginService.start();
-        nc.updateHighscore(123456);
+        loginService.start();
     }
     @FXML
     private void handleRegisterButtonAction(ActionEvent event) throws IOException {
-       //registerService.start();
-        nc.fetchAllPlayers();
+        registerService.start();
     }
     private void startGameScene(JSONObject player) throws IOException{
         GameViewController gvc = new GameViewController(this.nc, player);
-        Parent gameRoot;
         Scene gameScene;
-        FXMLLoader gameLoader = new FXMLLoader(LoginViewController.class.getResource("../view/Gameboard.fxml"), null);
+        URL fxmlURL = getClass().getClassLoader().getResource("view/Gameboard.fxml");
+        System.out.println(fxmlURL);
+        FXMLLoader gameLoader = new FXMLLoader(fxmlURL);
         gameLoader.setController(gvc);
         gameLoader.load();
-        gameRoot = gameLoader.getRoot();
-        gameScene = new Scene(gameRoot);
+        gameScene = new Scene(gameLoader.getRoot());
         gameScene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
         Stage primaryStage = (Stage)(loginButton).getScene().getWindow();
         gameScene.getRoot().requestFocus();
@@ -94,7 +95,6 @@ public class LoginViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loginButton.disableProperty().bind(Bindings.or(loginService.stateProperty().isEqualTo(RUNNING), registerService.stateProperty().isEqualTo(RUNNING)));
         registerButton.disableProperty().bind(Bindings.or(loginService.stateProperty().isEqualTo(RUNNING), registerService.stateProperty().isEqualTo(RUNNING)));
-
         RotateTransition loadingAnim = new RotateTransition(Duration.seconds(2), loadingLabel);
         loadingAnim.setToAngle(-360);
         loadingAnim.setInterpolator(Interpolator.LINEAR);
@@ -131,13 +131,22 @@ public class LoginViewController implements Initializable {
         registerService.setOnSucceeded(event -> {
             JSONObject response = registerService.getValue();
             loadingLabel.setVisible(false);
-            try {
-                message.setText(response.toString());
-                startGameScene(response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            message.setText(response.toString());
             registerService.reset();
+            if(response.getJSONObject("user").get("username").toString().equals(username.getText())) {
+                try {
+                    startGameScene(response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                username.requestFocus();
+            }
         });
     }
 }

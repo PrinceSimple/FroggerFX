@@ -36,6 +36,7 @@ public class NetworkController {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
                 TOKEN = (String) res.get("token");
+                System.out.println(TOKEN);
                 in.close();
                 return res;
             } else {
@@ -74,7 +75,7 @@ public class NetworkController {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
                 in.close();
-                System.out.println(res);
+                //System.out.println(res);
                 return res;
             } else {
 
@@ -100,7 +101,7 @@ public class NetworkController {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             JSONArray players = new JSONArray(in.readLine());
-            System.out.print(players.toString());
+            System.out.println(players.toString());
             in.close();
             return players;
 
@@ -134,7 +135,7 @@ public class NetworkController {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
                 in.close();
-                System.out.println(res);
+                //System.out.println(res);
             } else {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                 errorMessage = new JSONObject(in.readLine());
