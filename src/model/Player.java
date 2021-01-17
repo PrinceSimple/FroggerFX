@@ -10,14 +10,11 @@ public class Player extends BaseGameObject {
     public SimpleIntegerProperty score = new SimpleIntegerProperty(0);
     public SimpleIntegerProperty highscore = new SimpleIntegerProperty(0);
     public SimpleStringProperty name = new SimpleStringProperty("anonymous");
-    private String imgPath;
     public ColorAdjust colorAdjust = new ColorAdjust();
 
     public Player(int id, double x, double y) {
         super(x, y, 50, 50, "assets/frog.png");
         colorAdjust.setHue(-0.01);
-        //System.out.print(this.img);
-        //setImageTint(colorAdjust);
     }
 
     public void reset(double x, double y) {

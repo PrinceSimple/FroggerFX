@@ -12,7 +12,7 @@ public class NetworkController {
     private static final String REGISTER_URL = "https://froggerfx-api.herokuapp.com/api/auth/register";  //"http://localhost:8000/api/auth/register";
     private static final String TEST_URL = "https://froggerfx-api.herokuapp.com/";  //"http://localhost:8000/";
     private static final String UPDATE_URL = "https://froggerfx-api.herokuapp.com/api/user/update";  //"http://localhost:8000/";
-    private static String TOKEN = "a2c485ed18f5aaea0889efd12141b038afa19c9a835190dd5a6e1d9793c29183";
+    private static String TOKEN = "";
     public JSONObject errorMessage;
 
     public JSONObject login(String username, String password) throws IOException {

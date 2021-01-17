@@ -5,7 +5,7 @@ public class Obstacle extends BaseGameObject {
     public double speed;
     private boolean isDeadly;
     private double width;
-    public boolean occupied = false;
+    private boolean occupied = false;
 
     public Obstacle(double x, double y, double width, double speed, boolean deadly, String imgPath)
         {

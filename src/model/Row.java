@@ -10,15 +10,15 @@ public class Row {
     public HomeSlot[] homes;
     private int id;
     private int y;
-    private static int H = 50;
+    private static int HEIGHT = 50;
     private boolean isWater = false;
 
     public Row(int id, Color bgColor, Canvas backgroundCanvas, int obstacleCount, int obstacleWidth, int spacing, int offset, double speed, boolean backwards, String obstacleImgPath) {
         this.id = id;
-        this.y = id * H;
+        this.y = id * HEIGHT;
         ctx = backgroundCanvas.getGraphicsContext2D();
         ctx.setFill(bgColor);
-        ctx.fillRect(0, id*H, 750, H);
+        ctx.fillRect(0, id*HEIGHT, 750, HEIGHT);
         this.obstacles = new Obstacle[obstacleCount];
         this.isWater = id < 7 ? true : false;
         if (backwards) {
@@ -26,16 +26,16 @@ public class Row {
         }
         for(int i = 0; i < obstacleCount; i++) {
             int temp_x = i * spacing + offset;
-            this.obstacles[i] = new Obstacle(temp_x, id * H, obstacleWidth, speed, id > 7, obstacleImgPath);
+            this.obstacles[i] = new Obstacle(temp_x, id * HEIGHT, obstacleWidth, speed, id > 7, obstacleImgPath);
         }
     }
 
     public Row(int id, Color bgColor, Canvas backgroundCanvas) {
         this.id = id;
-        this.y = id * H;
+        this.y = id * HEIGHT;
         ctx = backgroundCanvas.getGraphicsContext2D();
         ctx.setFill(bgColor);
-        ctx.fillRect(0, id*H, 750, H);
+        ctx.fillRect(0, id*HEIGHT, 750, HEIGHT);
         this.homes = new HomeSlot[5];
         this.isWater = id < 7 ? true : false;
         for(int i = 0; i < 5; i++) {
