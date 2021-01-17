@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.Obstacle;
@@ -68,7 +67,7 @@ public class GameViewController {
     @FXML
     private Button restartButton;
     @FXML
-    private GridPane player_grid;
+    private Label restartInfo;
 
     Service<JSONArray> fetchHighscoresService = new Service<JSONArray>() {
         @Override
@@ -249,9 +248,8 @@ public class GameViewController {
     private void showHighscores() {
         expendableLayer.getChildren().clear();
         highscoresLayer.setVisible(true);
-        highscoresLayer.getChildren().clear();
         JSONArray players = fetchHighscoresService.getValue();
-        //Sorting Foo because JSON inherently unordered
+        //Sortingfoo because JSON is inherently unordered
         SortedMap<Integer, String> sm = new TreeMap<Integer, String>(new Comparator<Integer>() {
             public int compare(Integer a, Integer b) { return b.compareTo(a); }
         });
@@ -259,6 +257,7 @@ public class GameViewController {
             JSONObject player = players.getJSONObject(i);
             sm.put(player.getJSONObject("player").getInt("highscore"),player.getString("username"));
         }
+
         //Couldn't use table? --> this is for the lazy ones (me...)
         int i = 1;
         for (Map.Entry<Integer, String> entry : sm.entrySet()) {
@@ -269,8 +268,10 @@ public class GameViewController {
             tmp.setTranslateY(i*50+50);
             tmp.setStyle("-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 28;");
             highscoresLayer.getChildren().add(tmp);
+            if(i == 10){
+                break;
+            }
             i++;
-            System.out.println((score + ":" + name));
         }
 
     }
@@ -284,6 +285,17 @@ public class GameViewController {
         player1.lives.set(5);
         highscoresLayer.setVisible(false);
         gameTimeline.play();
+        obstacleLayer.getChildren().clear();
+        ArrayList<Row> newRows = new ArrayList<Row>();
+        for(int id=0; id < 15; id++){
+            newRows.add(new RowBuilder(id, 1, bgCanvas).build());
+        }
+        for (Row r : newRows) {
+            for (Obstacle o : r.obstacles) {
+                o.initImage(obstacleLayer);
+            }
+        }
+        rows = newRows;
     }
 
     private void startGame() {

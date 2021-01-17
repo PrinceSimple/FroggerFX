@@ -22,7 +22,7 @@
       <Button fx:id="loginButton" layoutX="500.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" style="-fx-background-color: black; -fx-border-color: white; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Login" textFill="WHITE" />
       <Button fx:id="registerButton" layoutX="150.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleRegisterButtonAction" style="-fx-background-color: black; -fx-border-color: white; -fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 20;" text="Register" textFill="WHITE" />
       <Label fx:id="message" alignment="CENTER" layoutX="203.0" layoutY="500.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" />
-      <ImageView fitHeight="330.0" fitWidth="470.0" layoutX="165.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="330.0" fitWidth="470.0" layoutX="165.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/FroggerFxLogo2x.png" />
          </image>

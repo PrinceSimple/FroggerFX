@@ -36,7 +36,7 @@ public class NetworkController {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
                 TOKEN = (String) res.get("token");
-                System.out.println(TOKEN);
+                //System.out.println(TOKEN);
                 in.close();
                 return res;
             } else {

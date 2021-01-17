@@ -40,7 +40,7 @@
     </HBox>
     <Pane id="HighscoresLayer" fx:id="highscoresLayer" layoutX="0.0" layoutY="0.0" prefHeight="850.0" prefWidth="850.0" style="-fx-background-color: black;" visible="false">
       <children>
-         <Label layoutX="75.0" layoutY="728.0" mnemonicParsing="false" scaleX="1.0" scaleY="1.0" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 32; -fx-background-color: black;" text="PRESS ENTER TO RESTART" />
+         <Label fx:id="restart" layoutX="75.0" layoutY="728.0" mnemonicParsing="false" scaleX="1.0" scaleY="1.0" style="-fx-font-family: 'Press Start 2P'; -fx-text-fill: White;  -fx-font-size: 32; -fx-background-color: black;" text="PRESS ENTER TO RESTART" />
       </children>
     </Pane>
 </AnchorPane>
