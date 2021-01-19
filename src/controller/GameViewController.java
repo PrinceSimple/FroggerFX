@@ -133,7 +133,7 @@ public class GameViewController {
     }
 
     private void killPlayer(Player p) {
-        ImageView deathimage = new ImageView(new Image("assets/skull_head_death.png", 50, 50, false, false));
+        ImageView deathimage = new ImageView(new Image("assets/frog_dead.png", 50, 50, false, false));
         deathimage.setX(p.getX());
         deathimage.setY(p.getY());
         FadeTransition ft = new FadeTransition(Duration.millis(3000), deathimage);
@@ -151,7 +151,7 @@ public class GameViewController {
     private void setPlayerHome(Player p, Obstacle h) {
         if(!h.isOccupied()){
             h.setOccupied(true);
-            ImageView homeImage = new ImageView(new Image("assets/animated_example.gif", 50, 50, false, false));
+            ImageView homeImage = new ImageView(new Image("assets/frog_home.png", 50, 50, false, false));
             homeImage.setX(h.getX());
             homeImage.setY(h.getY());
             expendableLayer.getChildren().add(homeImage);
