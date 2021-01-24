@@ -7,28 +7,15 @@ import java.util.Random;
 
 public class RowBuilder {
 
-    private int id;
-    private Color[] bgColors = {
-            Color.web("99FF99"),
-            Color.web("99FFFF"),
-            Color.web("D6FF99"),
-            Color.web("1f261f")
-    };
-    private String[] cars= {
-            "assets/Car_1.png",
-            "assets/Car_2.png",
-            "assets/Car_3.png",
-            "assets/Car_4.png"
-    };
+    private final int RowId;
     private String imgPath = "";
-    private int level = 1;
     private int obstacleCount = 0;
     private int obstacleWidth = 0;
     private int spacing = 0;
     private int offset = 0;
     private double speed = 0;
-    private Color bgColor;
-    private Canvas bgCanvas;
+    private final Color bgColor;
+    private final Canvas bgCanvas;
     boolean backwards = fiftyFifty();
 
     private boolean fiftyFifty() {
@@ -37,9 +24,20 @@ public class RowBuilder {
     }
 
     public RowBuilder(int id, int level, Canvas backgroundCanvas) {
-        this.id = id;
-        this.level = level;
+        this.RowId = id;
         this.bgCanvas = backgroundCanvas;
+        String[] cars = {
+                "assets/Car_1.png",
+                "assets/Car_2.png",
+                "assets/Car_3.png",
+                "assets/Car_4.png"
+        };
+        Color[] bgColors = {
+                Color.web("99FF99"),
+                Color.web("99FFFF"),
+                Color.web("D6FF99"),
+                Color.web("1f261f")
+        };
         switch(id) {
             case 1:
                 bgColor = bgColors[0];
@@ -98,6 +96,6 @@ public class RowBuilder {
     }
 
     public Row build() {
-        return new Row(id, bgColor, bgCanvas, obstacleCount, obstacleWidth, spacing, offset, speed, backwards, imgPath);
+        return new Row(RowId, bgColor, bgCanvas, obstacleCount, obstacleWidth, spacing, offset, speed, backwards, imgPath);
     }
 }
