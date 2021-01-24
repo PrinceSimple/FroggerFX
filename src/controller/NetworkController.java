@@ -74,6 +74,7 @@ public class NetworkController {
             if(con.getResponseCode() < 400) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 JSONObject res = new JSONObject(in.readLine());
+                TOKEN = (String) res.get("token");
                 in.close();
                 //System.out.println(res);
                 return res;
@@ -101,7 +102,7 @@ public class NetworkController {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             JSONArray players = new JSONArray(in.readLine());
-            System.out.println(players.toString());
+            //System.out.println(players.toString());
             in.close();
             return players;
 

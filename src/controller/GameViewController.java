@@ -101,7 +101,7 @@ public class GameViewController {
         //inputController.handle(e);
         switch (e.getCode()) {
             case RIGHT:
-                if (player1.getX() < 700 && !gamePaused) {
+                if (player1.getX() < 699 && !gamePaused) {
                     sc.playJumpSound();
                     player1.move(50, 0);
                 }
@@ -264,6 +264,7 @@ public class GameViewController {
         }
 
     }
+
     private void gameOver() {
         gameOver = true;
         player1.reset(1000,10000);

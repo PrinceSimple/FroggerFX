@@ -70,7 +70,7 @@ public class RowBuilder {
             case 10: case 11:
             case 12: case 13:
                 bgColor = bgColors[3];
-                obstacleCount = randomIntInRange(4,8);
+                obstacleCount = randomIntInRange(3,7);
                 obstacleWidth = 50;
                 spacing = randomIntInRange(50, 200);
                 offset = randomIntInRange(50, 400);
