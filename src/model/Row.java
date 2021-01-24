@@ -5,11 +5,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Row {
-    private GraphicsContext ctx;
+    private final GraphicsContext ctx;
     public Obstacle[] obstacles;
     public HomeSlot[] homes;
-    private int id;
-    private int y;
+    private final int id;
+    private final int y;
     private static int H = 50;
     private boolean isWater = false;
 

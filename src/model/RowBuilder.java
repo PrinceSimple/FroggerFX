@@ -8,8 +8,8 @@ import java.util.Random;
 public class RowBuilder {
 
     private final int RowId;
-    private String imgPath = "";
-    private int obstacleCount = 0;
+    private final String imgPath;
+    private final int obstacleCount;
     private int obstacleWidth = 0;
     private int spacing = 0;
     private int offset = 0;
