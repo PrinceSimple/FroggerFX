@@ -75,7 +75,7 @@ public class RowBuilder {
                 obstacleCount = randomIntInRange(4,8);
                 obstacleWidth = 50;
                 spacing = randomIntInRange(50, 200);
-                offset = randomIntInRange(50, 500);
+                offset = randomIntInRange(50, 400);
                 speed = randomSpeedInRange(0.8, 3);
                 imgPath = cars[randomIntInRange(0,3)];
                 break;
@@ -88,11 +88,11 @@ public class RowBuilder {
         }
     }
 
-    public double randomSpeedInRange(double min, double max) {
+    private double randomSpeedInRange(double min, double max) {
         Random rdm = new Random();
         return (max - min) + min * rdm.nextDouble();
     }
-    public int randomIntInRange(int min, int max) {
+    private int randomIntInRange(int min, int max) {
         Random rdm = new Random();
         return rdm.nextInt(max - min) + min;
     }

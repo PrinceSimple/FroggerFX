@@ -33,6 +33,7 @@ public class GameViewController {
     private boolean gameOver = false;
     //private InputController inputController = new InputController(player1);
     private NetworkController nc;
+    private SoundController sc = new SoundController();
     private int occupiedHomes = 0;
     private ArrayList<Row> rows = new ArrayList<Row>();
     private int homeScore = 500;
@@ -95,6 +96,60 @@ public class GameViewController {
         }
     };
 
+    @FXML
+    private void handleKeyPress(KeyEvent e) {
+        //inputController.handle(e);
+        switch (e.getCode()) {
+            case RIGHT:
+                if (player1.getX() < 700 && !gamePaused) {
+                    sc.playJumpSound();
+                    player1.move(50, 0);
+                }
+                player1.img.setRotate(90);
+                break;
+            case LEFT:
+                if (player1.getX() > 0 && !gamePaused) {
+                    sc.playJumpSound();
+                    player1.move(-50, 0);
+                }
+                player1.img.setRotate(-90);
+                break;
+            case UP:
+                if (player1.getY() > 0 && !gamePaused) {
+                    sc.playJumpSound();
+                    player1.move(0, -50);
+                    player1.score.set(player1.score.get() + 10);
+                }
+                player1.img.setRotate(0);
+                break;
+            case DOWN:
+                if (player1.getY() < 700 && !gamePaused) {
+                    sc.playJumpSound();
+                    player1.move(0, 50);
+                }
+                player1.img.setRotate(180);
+                break;
+            case ESCAPE:
+                if (gamePaused) {
+                    gameTimeline.play();
+                    sc.bgMusicPlay();
+                    gamePaused = false;
+                } else {
+                    gameTimeline.stop();
+                    sc.bgMusicPause();
+                    gamePaused = true;
+                }
+                break;
+            case ENTER:
+                if (gameOver) {
+                    restartGame();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     private Timeline gameTimeline = new Timeline(
         new KeyFrame(Duration.millis(30),
             new EventHandler<ActionEvent>() {
@@ -141,6 +196,8 @@ public class GameViewController {
         ft.setToValue(0.0);
         expendableLayer.getChildren().add(deathimage);
         ft.play();
+        sc.playKillSound();
+        // GOD MODE SWITCH
         p.lives.set(p.lives.get() - 1);
         p.reset(350, 700);
         if(p.lives.get() == 0){
@@ -155,6 +212,7 @@ public class GameViewController {
             homeImage.setX(h.getX());
             homeImage.setY(h.getY());
             expendableLayer.getChildren().add(homeImage);
+            sc.playHomeSound();
             p.score.set(p.score.get() + homeScore);
             p.reset(350, 700);
             occupiedHomes++;
@@ -169,80 +227,11 @@ public class GameViewController {
                 expendableLayer.getChildren().clear();
                 occupiedHomes = 0;
                 homeScore += 250;
+                sc.playLevelUpSound();
             }
         } else{
             p.reset(player1.getX(), player1.getY() + 50);
         }
-    }
-
-    @FXML
-    private void handleKeyPress(KeyEvent e) {
-        //inputController.handle(e);
-        switch (e.getCode()) {
-            case RIGHT:
-                if (player1.getX() < 700 && !gamePaused) {
-                    player1.move(50, 0);
-                }
-                player1.img.setRotate(90);
-                break;
-            case LEFT:
-                if (player1.getX() > 0 && !gamePaused) {
-                    player1.move(-50, 0);
-                }
-                player1.img.setRotate(-90);
-                break;
-            case UP:
-                if (player1.getY() > 0 && !gamePaused) {
-                    player1.move(0, -50);
-                    player1.score.set(player1.score.get() + 10);
-                }
-                player1.img.setRotate(0);
-                break;
-            case DOWN:
-                if (player1.getY() < 700 && !gamePaused) {
-                    player1.move(0, 50);
-                }
-                player1.img.setRotate(180);
-                break;
-            case ESCAPE:
-                if (gamePaused) {
-                    gameTimeline.play();
-                    gamePaused = false;
-                } else {
-                    gameTimeline.stop();
-                    gamePaused = true;
-                }
-                break;
-            case ENTER:
-                if (gameOver) {
-                    restartGame();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void initialize() throws IOException {
-        gameTimeline.setCycleCount(Timeline.INDEFINITE);
-        bgLayer.getChildren().add(bgCanvas);
-        for(int id=0; id < 15; id++){
-            rows.add(new RowBuilder(id, 1, bgCanvas).build());
-        }
-        for (Row r : rows) {
-            for (Obstacle o : r.obstacles) {
-                o.initImage(obstacleLayer);
-            }
-        }
-        fetchHighscoresService.setOnSucceeded( event -> {
-            showHighscores();
-            fetchHighscoresService.reset();
-        });
-        updateHighscoreService.setOnSucceeded( event -> {
-            updateHighscoreService.reset();
-        });
-
-        startGame();
     }
 
     private void showHighscores() {
@@ -275,6 +264,34 @@ public class GameViewController {
         }
 
     }
+    private void gameOver() {
+        gameOver = true;
+        player1.reset(1000,10000);
+        gameTimeline.stop();
+        Label gameOverLabel = new Label("GAME OVER");
+        gameOverLabel.setStyle("-fx-font-family: 'Press Start 2P'; -fx-text-fill: Red;  -fx-font-size: 32;");
+        gameOverLabel.setTranslateX(230);
+        gameOverLabel.setTranslateY(375);
+        expendableLayer.getChildren().add(gameOverLabel);
+        sc.playGameOverSound();
+        ScaleTransition scaleTrans = new ScaleTransition(Duration.millis(500), gameOverLabel);
+        scaleTrans.setByX(1.6);
+        scaleTrans.setByY(1.6);
+        scaleTrans.setAutoReverse(true);
+        scaleTrans.setCycleCount(5);
+        scaleTrans.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                fetchHighscoresService.start();
+            }
+        });
+        scaleTrans.play();
+
+        if (player1.highscore.get() < player1.score.get()) {
+            updateHighscoreService.start();
+            player1.highscore.set(player1.score.get());
+        }
+    }
 
     private void restartGame() {
         gameOver = false;
@@ -296,6 +313,7 @@ public class GameViewController {
             }
         }
         rows = newRows;
+        sc.anotherRandomTrack();
     }
 
     private void startGame() {
@@ -306,34 +324,28 @@ public class GameViewController {
         livesLabel.textProperty().bind(player1.lives.asString());
         highscoreLabel.textProperty().bind(player1.highscore.asString());
         gameTimeline.play();
+        sc.bgMusicPlay();
     }
 
-    private void gameOver() {
-        gameOver = true;
-        player1.reset(1000,10000);
-        gameTimeline.stop();
-        Label gameOverLabel = new Label("GAME OVER");
-        gameOverLabel.setStyle("-fx-font-family: 'Press Start 2P'; -fx-text-fill: Red;  -fx-font-size: 32;");
-        gameOverLabel.setTranslateX(230);
-        gameOverLabel.setTranslateY(375);
-        expendableLayer.getChildren().add(gameOverLabel);
-
-        ScaleTransition scaleTrans = new ScaleTransition(Duration.millis(500), gameOverLabel);
-        scaleTrans.setByX(1.6);
-        scaleTrans.setByY(1.6);
-        scaleTrans.setAutoReverse(true);
-        scaleTrans.setCycleCount(5);
-        scaleTrans.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                fetchHighscoresService.start();
-            }
-        });
-        scaleTrans.play();
-
-        if (player1.highscore.get() < player1.score.get()) {
-            updateHighscoreService.start();
-            player1.highscore.set(player1.score.get());
+    public void initialize() throws IOException {
+        gameTimeline.setCycleCount(Timeline.INDEFINITE);
+        bgLayer.getChildren().add(bgCanvas);
+        for(int id=0; id < 15; id++){
+            rows.add(new RowBuilder(id, 1, bgCanvas).build());
         }
+        for (Row r : rows) {
+            for (Obstacle o : r.obstacles) {
+                o.initImage(obstacleLayer);
+            }
+        }
+        fetchHighscoresService.setOnSucceeded( event -> {
+            showHighscores();
+            fetchHighscoresService.reset();
+        });
+        updateHighscoreService.setOnSucceeded( event -> {
+            updateHighscoreService.reset();
+        });
+
+        startGame();
     }
 }
